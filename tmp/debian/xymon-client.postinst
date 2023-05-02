@@ -1,0 +1,116 @@
+#! /bin/sh
+# postinst script for xymon-client
+#
+# see: dh_installdeb(1)
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+#
+
+. /usr/share/debconf/confmodule
+
+set -e
+
+# Workaround for http://bugs.debian.org/560317 in case debconf is too old like on Squeeze
+export DPKG_MAINTSCRIPT_PACKAGE=${DPKG_MAINTSCRIPT_PACKAGE:-xymon-client}
+export DPKG_MAINTSCRIPT_NAME=${DPKG_MAINTSCRIPT_NAME:-postinst}
+
+case "$1" in
+    configure)
+	# Do the debconf stuff
+	db_get hobbit-client/HOBBITSERVERS
+	HOBBITSERVERS="$RET"
+	db_get hobbit-client/CLIENTHOSTNAME
+	CLIENTHOSTNAME="$RET"
+	if [ "$2" ] && dpkg --compare-versions "$2" lt "4.3.7"; then
+		db_get hobbit-client/automatic-xymon-migration
+		if [ "$RET" = "true" ]; then
+			MIGRATE="true"
+			echo "Migrating xymon-client files from hobbit ..."
+		fi
+	fi
+	db_stop
+
+	# Create new group
+	getent group xymon > /dev/null || addgroup --system xymon
+
+	# Create or migrate user
+	getent passwd xymon > /dev/null || adduser --system \
+		--home /var/lib/xymon --no-create-home \
+		--ingroup xymon --disabled-password --disabled-login \
+		--gecos "Xymon System Monitor" xymon
+	if [ "$MIGRATE" ] && getent passwd hobbit > /dev/null; then
+	    for d in /etc/hobbit /etc/xymon /var/*/hobbit /var/*/xymon; do
+                if [ -d $d ]; then
+		    find $d -user hobbit -print0 2>/dev/null | xargs -0 -r chown xymon
+                fi
+	    done
+	    pkill -u hobbit vmstat || true
+	    deluser hobbit || echo "Couldn't delete user hobbit, please remove it manually"
+	fi
+
+	# Migrate old group
+	if [ "$MIGRATE" ] && getent group hobbit > /dev/null; then
+	    for d in /etc/hobbit /etc/xymon /var/*/hobbit /var/*/xymon; do
+                if [ -d $d ]; then
+		    find $d -group hobbit -print0 2>/dev/null | xargs -0 -r chgrp xymon
+                fi
+	    done
+	    delgroup --only-if-empty hobbit || echo "Couldn't delete group hobbit, please remove it manually"
+	fi
+
+	# Create or migrate directories
+	[ "$MIGRATE" ] && test -d /var/run/hobbit -a ! -d /var/run/xymon && mv -v /var/run/hobbit /var/run/xymon || true
+	test -d /var/run/xymon || mkdir /var/run/xymon
+	chown xymon:xymon /var/run/xymon
+
+	test -d /var/lib/xymon/tmp || mkdir /var/lib/xymon/tmp
+	chown xymon:xymon /var/lib/xymon/tmp
+
+	[ "$MIGRATE" ] && test -d /var/log/hobbit -a ! -d /var/log/xymon && mv -v /var/log/hobbit /var/log/xymon || true
+	test -d /var/log/xymon || mkdir /var/log/xymon
+	chown xymon:adm /var/log/xymon ; chmod 2755 /var/log/xymon
+
+	# Update configuration file
+	CONFIGFILE=/etc/default/xymon-client
+	test -e $CONFIGFILE || cp /usr/share/xymon/xymon-client.default.template $CONFIGFILE
+	if grep -Eq "^(HOBBIT|XYMON)SERVERS=" $CONFIGFILE ; then
+		sed -i -e "s/^\(HOBBIT\|XYMON\)SERVERS=.*/XYMONSERVERS=\"$HOBBITSERVERS\"/" \
+			$CONFIGFILE
+	else
+		echo "XYMONSERVERS=\"$HOBBITSERVERS\"" >> $CONFIGFILE
+	fi
+	if grep -q "^CLIENTHOSTNAME=" $CONFIGFILE ; then
+		sed -i -e "s/^CLIENTHOSTNAME=.*/CLIENTHOSTNAME=\"$CLIENTHOSTNAME\"/" \
+			$CONFIGFILE
+	else
+		echo "CLIENTHOSTNAME=\"$CLIENTHOSTNAME\"" >> $CONFIGFILE
+	fi
+
+	# Remove empty directories in /etc/hobbit and possibly /etc/hobbit itself.
+	[ "$MIGRATE" ] && if test -d /etc/hobbit; then
+		rmdir --ignore-fail-on-non-empty -p /etc/hobbit/*/ || true
+	fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+	echo "postinst called with unknown argument \`$1'" >&2
+	exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,34 @@
+Description: Switch analysis.cfg(5) examples from FSSTND to FHS
+ Silences a lintian warning which was following a red herring.
+Author: Axel Beckert <abe@debian.org>
+Forwarded: not-needed
+
+--- a/docs/manpages/man5/analysis.cfg.5.html
++++ b/docs/manpages/man5/analysis.cfg.5.html
+@@ -309,10 +309,10 @@
+ The <B>OPTIONAL</B> keyword causes the check to be skipped if the logfile
+ does not exist.
+ <P>
+-Example: Trigger a red alert when the string &quot;ERROR&quot; appears in the &quot;/var/adm/syslog&quot; file:
++Example: Trigger a red alert when the string &quot;ERROR&quot; appears in the &quot;/var/log/syslog&quot; file:
+ <BR>
+ 
+-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>LOG /var/adm/syslog ERROR<BR>
++<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>LOG /var/log/syslog ERROR<BR>
+ <P>
+ Example: Trigger a yellow warning on all occurrences of the word &quot;WARNING&quot;
+ or &quot;NOTICE&quot; in the &quot;daemon.log&quot; file, except those from the &quot;lpr&quot; system:
+--- a/xymond/analysis.cfg.5
++++ b/xymond/analysis.cfg.5
+@@ -247,9 +247,9 @@
+ The \fBOPTIONAL\fR keyword causes the check to be skipped if the logfile
+ does not exist.
+ .sp
+-Example: Trigger a red alert when the string "ERROR" appears in the "/var/adm/syslog" file:
++Example: Trigger a red alert when the string "ERROR" appears in the "/var/log/syslog" file:
+ .br
+-	LOG /var/adm/syslog ERROR
++	LOG /var/log/syslog ERROR
+ .sp
+ Example: Trigger a yellow warning on all occurrences of the word "WARNING"
+ or "NOTICE" in the "daemon.log" file, except those from the "lpr" system:

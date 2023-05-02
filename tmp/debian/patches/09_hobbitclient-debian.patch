@@ -1,0 +1,16 @@
+Description: Send (reformatted) dpkg -l output with client message
+Author: Christoph Berg <myon@debian.org>
+Last-Update: 2015-09-10
+Forwarded: not-needed
+
+--- a/client/xymonclient-linux.sh
++++ b/client/xymonclient-linux.sh
+@@ -78,6 +78,8 @@
+ if test -r /proc/mdstat; then echo "[mdstat]"; cat /proc/mdstat; fi
+ echo "[ps]"
+ ps -Aww f -o pid,ppid,user,start,state,pri,pcpu,time:12,pmem,rsz:10,vsz:10,cmd
++echo "[dpkg]"
++COLUMNS=200 dpkg -l | awk '/^..  / { print $1 " " $2 " " $3 }'
+ 
+ # $TOP must be set, the install utility should do that for us if it exists.
+ if test "$TOP" != ""

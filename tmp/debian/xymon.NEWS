@@ -1,0 +1,38 @@
+xymon (4.3.7-1) experimental; urgency=low
+
+  This release moves Xymon's configuration from /etc/hobbit/ to
+  /etc/xymon/ and renames quite some files. Additionally most
+  configuration files have been renamed by upstream, too, to be more
+  consistent. See Upstream's migration documentation available at
+  /usr/share/doc/xymon/upgrade-to-430.txt.gz and
+  /usr/share/doc/xymon/Renaming-430.txt.gz for details.
+
+  The package should care about most of the file renaming but can't
+  change the contents of files if they have been edited locally.
+
+  One common case is /etc/apache2/conf.d/hobbit (now
+  /etc/apache2/conf.d/xymon) which contains paths with hobbit in their
+  name. Check /etc/apache2/conf.d/xymon.dpkg-new for how they should look
+  like now.
+
+  Unfortunately most configuration files need to be changed for the
+  new paths and variable or directive names. Depending on the
+  customization level of your setup, it's either easier to take the
+  something.cfg.dpkg-new files and put in your customization or to
+  take your old configuration files and change the paths and variable
+  names.
+
+  For changing paths and variable names in old configuration,
+  upstream's migration tools have been installed into
+  /usr/lib/xymon/server/libexec/. Nevertheless they are mostly
+  untested in the context of Debian package and are installed
+  primarily for reference purposes.
+
+ -- Axel Beckert <abe@debian.org>  Tue, 26 Jun 2012 01:02:40 +0200
+
+hobbit (4.2.0.dfsg-9) unstable; urgency=low
+
+  This release adds Charles Goyard's splitncv patch. See hobbitd_rrd(8) and
+  http://www.hswn.dk/hobbiton/2007/03/msg00368.html for more information.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 31 Dec 2007 10:47:56 +0100

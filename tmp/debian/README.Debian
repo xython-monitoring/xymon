@@ -1,0 +1,21 @@
+Xymon for Debian
+=================
+
+This Debian package follows pretty closely the original debianization shipped
+by upstream. The main differences are
+
+- 'xymon' depends on 'xymon-client' rather than conflicting with it; it uses
+  the client package for monitoring the local host. (The client package's init
+  script/daemon is disabled when the server is installed.)
+
+- Additional tests to run can be plugged into /etc/xymon/clientlaunch.d/*.cfg.
+  Client and server will read these files on startup. Install the
+  hobbit-plugins package for some pre-packaged modules.
+
+- Access to the monitoring website is restricted to localhost by default.
+  Edit /etc/apache2/conf-available/xymon to change this.
+
+- The animated gifs were replaced by static versions in the default
+  install, change BBSKIN for the animated version.
+
+ -- Axel Beckert <abe@debian.org>, Mon, 19 May 2014 17:03:48 +0200

@@ -1,0 +1,8 @@
+%YAML 1.1
+---
+# https://wiki.debian.org/UpstreamMetadata
+Contact: xymon@xymon.com
+Name: Xymon
+Homepage: http://xymon.sourceforge.net/
+Repository: svn://svn.code.sf.net/p/xymon/code/trunk
+Repository-Browse: https://sourceforge.net/p/xymon/code/HEAD/tree/

@@ -1,0 +1,38 @@
+Encypting the Traffic between Xymon Client and Server
+=====================================================
+
+If you want to encrypt the reporting traffic between Xymon client and
+server, you can use stunnel (Debian package `stunnel4`).
+
+Stunnel Configuration
+---------------------
+
+Besides the normal stunnel configuration, you need the according
+tunnel entries in `/etc/stunnel/stunnel.conf`.
+
+(If you like, you can also use a different names for the connection,
+e.g. `xymons` or a differnt port number, but 1983 seems the proper
+"not yet 1984" port number. Of course, the port number should be the
+same on client and server side.)
+
+### Stunnel Client Side Configuration
+
+    [bbs]
+    accept  = 127.0.0.1:1984
+    connect = <your-xymon-server>:1983
+    client = yes
+
+### Stunnel Server Side Configuration
+
+    [bbs]
+    accept = 1983
+    connect = 1984
+
+### Further documentation
+
+See the section
+[Encryption and Tunnelling](https://en.wikibooks.org/wiki/System_Monitoring_with_Xymon/Administration_Guide#Encryption_and_Tunnelling)
+in the
+[Administration Guide for System Monitoring with Xymon](https://en.wikibooks.org/wiki/System_Monitoring_with_Xymon/Administration_Guide)
+at Wikibooks for a more detailed (and not Debian-specific)
+documentation.

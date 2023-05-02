@@ -1,0 +1,968 @@
+xymon (4.3.30-1) unstable; urgency=medium
+
+  [ Axel Beckert ]
+  * Retroactively add bug report number to previous changelog entry.
+  * Import new upstream bugfix release 4.3.30.
+    + Drop 63_netstat-ant-vs-ipv6-address-truncating.patch, fixed
+      upstream.
+
+  [ Andreas Henriksson ]
+  * Add patch to fix reproducible build on merged-usr vs non-merged
+    systems. (Closes: #915957)
+
+ -- Axel Beckert <abe@debian.org>  Sun, 08 Sep 2019 19:57:38 +0200
+
+xymon (4.3.29-1) unstable; urgency=high
+
+  * Import new upstream release.
+    + Fixes multiple security vulnerabilities:
+      - CVE-2019-13451: service overflows histlogfn in history.c.
+      - CVE-2019-13452: service overflows histlogfn in reportlog.c.
+      - CVE-2019-13273: srdb overflows dbfn in csvinfo.c.
+      - CVE-2019-13274: reflected XSS in csvinfo.c.
+      - CVE-2019-13455: htmlquoted(hostname) overflows msgline in
+        acknowledge.c.
+      - CVE-2019-13484: htmlquoted(xymondreq) overflows errtxt appfeed.c.
+      - CVE-2019-13485: hostname overflows selfurl in history.c.
+      - CVE-2019-13486: htmlquoted(xymondreq) overflows errtxt in
+        svcstatus.c.
+      - Closes: #935470
+    + Drop patches applied upstream:
+      - 00_htmlcontenttype.patch
+      - 39_kfreebsd-makefile.patch
+      - 66_apache2.4.patch
+      - 84_fix_compilation_on_GNU_Hurd.patch
+      - 90_fix-spelling-errors.patch
+    + Refresh update patches where necessary:
+      - 24_hobbitclient-tmpfs.patch
+      - 51_hardening-buildflags.patch
+      - 87_fix_logfetch_FTBFS_with_glibc_2.26.patch
+    + Add new build-dependency libtirpc-dev.
+  * Declare compliance with Debian Policy 4.4.0. (No changes needed.)
+  * Bump debhelper compatibility level to 12.
+    + Replace debian/compat with a versioned b-d on debhelper-compat.
+
+ -- Axel Beckert <abe@debian.org>  Wed, 24 Jul 2019 01:18:17 +0200
+
+xymon (4.3.28-5) unstable; urgency=medium
+
+  * xymon.postinst: Check for file existence before calling chgrp/chmod on
+    critical.cfg and critical.cfg.bak. (Closes: #924665, LP: #1819378)
+
+ -- Axel Beckert <abe@debian.org>  Mon, 18 Mar 2019 01:28:51 +0100
+
+xymon (4.3.28-4) unstable; urgency=medium
+
+  [ Axel Beckert ]
+  * Update Vcs-* headers for move to Salsa.
+  * Override package-contains-documentation-outside-usr-share-doc lintian
+    warning for multiple cases of documentation about a directory.
+  * Declare compliance with Debian Policy 4.3.0.
+    + Install RELEASENOTES file as /usr/share/doc/package/NEWS.gz.
+  * Reintroduce MAKEFLAGS=-j1 again as I ran into issues with parallel
+    building again, but restrict it to override_dh_auto_build and the
+    server's install target in override_dh_auto_install.
+  * Fix URL pointing upstream mailing list posting in
+    debian/xymon.lintian-overrides. It was pointing to the wrong mail.
+  * Make lintian overrides for package-contains-hardlink more generic:
+    + Catches future CGI script hardlinks.
+    + Independent of which file is regarded as file others are linked to.
+    + Reduces amount of lines needed in debian/xymon.lintian-overrides.
+  * Ignore squashfs mounts when checking for disk usage. (LP: #1798557)
+  * Add patch to fix old spelling errors found by new lintian.
+  * Add patch to switch example in analysis.cfg(5) from FSSTND to FHS.
+    Fixes lintian warning FSSTND-dir-in-manual-page.
+  * Fix existence of debian/docs together with debian/xymon.docs and
+    debian/xymon-client.docs by adequately merging the former into the two
+    latter files. Reintroduces some upstream documentation which was
+    missing for a few years.
+    + Install docs/TODO only into the server package "xymon".
+
+  [ Ondřej Nový ]
+  * debian/watch: Use HTTPS.
+
+ -- Axel Beckert <abe@debian.org>  Tue, 19 Feb 2019 18:50:07 +0100
+
+xymon (4.3.28-3) unstable; urgency=medium
+
+  * Switch from prename/perl to file-rename/rename in
+    debian/xymon.postinst and debian/control.
+  * Downgrade rename usage to Suggests as the migration from "hobbit" to
+    "xymon" in path names won't show up in normal setups and is guarded by
+    an existence check.
+  * Declare compliance with Debian Policy 4.1.3.
+    + Switch debian/copyright DEP5 format URL to HTTPS.
+    + Change Priority to optional.
+  * Drop several spelling-error-in-binary lintian-overrides. (No more
+    emitted.)
+  * Remove trailing whitespace from debian/rules.
+  * Set "Rules-Requires-Root: no".
+  * Change debian/rules to the minimal "dh $@" style.
+  * Bump debhelper compatibility level to 11.
+    + Update versioned debhelper build-dependency accordingly.
+    + Drop MAKEFLAGS=-j1 from debian/rules, parallel building seems to
+      work now.
+  * Fix lintian warning command-with-path-in-maintainer-script by using
+    "if which …" instead of "if [ -x /usr/bin/…".
+  * Fix FTBFS with glibc 2.26 by adding "#include <stdint.h>" to
+    client/logfetch.c. (Closes: #887633)
+  * Update lintian overrides of apache2-deprecated-auth-config for
+    additional parameter. Merge them into one override with wildcard for
+    the Apache directive.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 19 Jan 2018 02:45:18 +0100
+
+xymon (4.3.28-2) unstable; urgency=low
+
+  * xymon-client: Add dependency on net-tools. (Closes: #856315)
+
+ -- Axel Beckert <abe@debian.org>  Fri, 03 Mar 2017 23:18:20 +0100
+
+xymon (4.3.28-1) unstable; urgency=medium
+
+  [ Axel Beckert ]
+  * Import new upstream release.
+    + Drop 87_fix_4.3.28rc2_regression.patch, applied upstream.
+    + Fixes summary reports (from other Xymon servers back to a central
+      one).
+  * Enforce non-parallel building by setting MAKEFLAGS=-j1 globally.
+
+  [ Takuma Yamada ]
+  * Update Japanese debconf templates translation. (Closes: #815530)
+
+ -- Axel Beckert <abe@debian.org>  Fri, 20 Jan 2017 02:14:35 +0100
+
+xymon (4.3.28~rc2-1) experimental; urgency=low
+
+  * New upstream release candidate 4.3.28~rc2
+    + Drop patches 15_hobbitgraph.netstat, 75_fix_spelling_errors and
+      78_fix_manpage_syntax_errors, applied upstream.
+    + Add patch to fix preprocessor syntax error in xymonnet/contest.c.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 06 Jan 2017 22:57:35 +0100
+
+xymon (4.3.28~rc1-1) experimental; urgency=low
+
+  * New upstream release candidate 4.3.28~rc1
+    + Remove 81_fix_compilation_with_OpenSSL_1.1+.patch, fixed upstream.
+    + Refresh 75_fix_spelling_errors.patch and
+      78_fix_manpage_syntax_errors.patch.
+    + debian/copyright: Use version agnostic wildcard path to embedded
+      (but unused) copy of c-ares.
+  * Add a bunch of new typos found by lintian to
+    75_fix_spelling_errors.patch.
+  * Add lintian overrides for spelling-error-in-binary false positives,
+    where the accused typo can't be found in the source code.
+
+ -- Axel Beckert <abe@debian.org>  Wed, 04 Jan 2017 21:50:46 +0100
+
+xymon (4.3.27-3) unstable; urgency=medium
+
+  * Add patch to fix compilation on GNU/Hurd.
+
+ -- Axel Beckert <abe@debian.org>  Sun, 30 Oct 2016 17:32:28 +0100
+
+xymon (4.3.27-2) unstable; urgency=medium
+
+  * Apply init script patch by Joel Brunenberg to use --pidfile with
+    start-stop-daemon to be able distinguish multiple running xymon-client
+    daemons (xymonlaunch), e.g. the one on the main host from those in
+    containers. (Closes: #819976)
+  * Fix two typos found by Lintian in debian/copyright.
+  * Add versioned dependency on lsb-base for using /lib/lsb/init-functions
+    in the init script.
+  * Replace one case of http:// with https:// in d/u/metadata (via DUCK).
+  * Remove no more needed debian/source/lintian-overrides.
+  * Add patch to fix compilation with OpenSSL 1.1+. (Closes: #828611)
+
+ -- Axel Beckert <abe@debian.org>  Sun, 30 Oct 2016 04:57:47 +0100
+
+xymon (4.3.27-1) unstable; urgency=medium
+
+  * New upstream release
+    + Drop 72_disable_SSLv3.patch (a compile-time check for SSLv3 support
+      was added) and 81_cgifix.patch (was cherry-picked from upstream)
+    + Refresh 39_kfreebsd-makefile.patch and
+      78_fix_manpage_syntax_errors.patch
+  * Declare compliance with Debian Policy 3.9.8. (No changes needed.)
+
+ -- Axel Beckert <abe@debian.org>  Thu, 21 Apr 2016 15:59:42 +0200
+
+xymon (4.3.26-2) unstable; urgency=high
+
+  * Apply upstream-suggested patch for multiple CGI related regressions in
+    4.3.26.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 04 Mar 2016 16:01:20 +0100
+
+xymon (4.3.26-1) unstable; urgency=medium
+
+  * New upstream release
+    + Refresh patches.
+  * Declare compliance with Debian Policy 3.9.7. (No changes needed.)
+  * Convert debian/copyright to the machine-readable DEP-5 format
+    + Add lintian overrides where upstream didn't specify a GPL version.
+  * Update copyright years and some paths in debian/copyright.
+  * Add CVE-IDs to previous changelog entry.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 26 Feb 2016 19:12:53 +0100
+
+xymon (4.3.25-1) unstable; urgency=medium
+
+  [ Axel Beckert ]
+  * New upstream version.
+    + Drop cherry-picked 81_confreport-segfault.patch.
+    + Refresh patches where necessary.
+    + Fixes the following security issues: CVE-2016-2054, CVE-2016-2055,
+      CVE-2016-2056, CVE-2016-2057,and CVE-2016-2058
+  * Enable all hardening flags.
+  * Switch Vcs-* to HTTPS.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 08 Feb 2016 19:06:30 +0100
+
+xymon (4.3.24-2) unstable; urgency=medium
+
+  * Add upstream patch against segfault in confreport.cgi
+
+ -- Axel Beckert <abe@debian.org>  Fri, 11 Dec 2015 18:13:01 +0100
+
+xymon (4.3.24-1) unstable; urgency=medium
+
+  * New upstream release.
+    + Refresh 75_fix_spelling_errors.patch and
+      78_fix_manpage_syntax_errors.patch
+
+ -- Axel Beckert <abe@debian.org>  Fri, 27 Nov 2015 18:25:28 +0100
+
+xymon (4.3.23-1) unstable; urgency=medium
+
+  * New upstream release
+    + Drop cherry-picked 25_fix_4.3.22_process_graph_regression.patch.
+    + Refresh 78_fix_manpage_syntax_errors.patch.
+  * Add a debian-specific README.encryption.
+
+ -- Axel Beckert <abe@debian.org>  Mon, 16 Nov 2015 20:49:51 +0100
+
+xymon (4.3.22-2) unstable; urgency=high
+
+  * Cherry-pick patch from upstream to fix TRACK/OPTIONAL analysis.cfg
+    tags no more being honored. (Regression from 4.3.21)
+
+ -- Axel Beckert <abe@debian.org>  Thu, 12 Nov 2015 18:17:49 +0100
+
+xymon (4.3.22-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add patch to fix spelling issues found by lintian (and similar ones).
+  * Add patch to fix syntax errors in man pages.
+
+ -- Axel Beckert <abe@debian.org>  Sun, 08 Nov 2015 22:38:56 +0100
+
+xymon (4.3.22~rc2-1) unstable; urgency=high
+
+  * New upstream release candidate
+  * Fix typo in previous changelog entry.
+  * Add patch to remove any occurrence of SSLv3_client_method, it has been
+    removed from Debian's OpenSSL package.
+    + Set urgency=high as this fixes a FTBFS.
+    + Bump minimum libssl-dev build-dependency to 1.0.2d-2~
+  * Actually also remove from debian/patches/ all patches which were just
+    disabled in the previous upload.
+
+ -- Axel Beckert <abe@debian.org>  Wed, 04 Nov 2015 00:51:56 +0100
+
+xymon (4.3.22~beta-1) unstable; urgency=low
+
+  * Rename all patches to sport a number prefix and a ".patch" suffix.
+  * New upstream beta release
+    + Refresh the following patches:
+      - 12_hobbitvars.patch
+      - 24_hobbitclient-tmpfs.patch
+      - 27_hobbit_files_ifexist.patch
+      - 30_prefer-packaged-temp-plugin-over-unpackaged-devmon.patch.
+    + Drop the following obsolete patches:
+      - 06_603151-apache-alias.patch (applied upstream)
+      - 18_rrd_net_granularity.patch (applied upstream)
+      - 21_hobbitgraph.mailq.patch (applied upstream)
+      - 36_580493-negative-timeoffset.patch (applied upstream)
+      - 54_fix-spelling-errors.patch (applied upstream)
+      - 57_fix-hyphen-used-as-minus-sign.patch (applied upstream)
+      - 60_fix-exp-values-in-ncv.patch (applied upstream)
+      - 72_workaround-changed-ntpdate-behaviour.patch (solved properly)
+      - 75_cherry-pick-r7669-fix-zombies-after-dropping-host-records.patch
+        (was cherry-picked from the 4.3.22 release cycle)
+      - 78_fix-wmlgen-segfault.patch (has been applied as proposed by
+        upstream)
+
+ -- Axel Beckert <abe@debian.org>  Fri, 30 Oct 2015 18:26:40 +0100
+
+xymon (4.3.21-2) unstable; urgency=low
+
+  * Add patch to prefer working graphs in the temp plugin from
+    hobbit-plugins over supporting temperature values from the
+    non-packaged devmon add-on daemon. (Implemented via a modified default
+    value of the TEST2RRD setting in xymonserver.cfg.)
+  * Add DEP3 patch headers to all remaining patches.
+  * Cherry-pick r7669 from upstream 4.x-master branch to fix zombie
+    processes after dropping host records.
+  * Bump debhelper compatibility to 9 as recommended.
+    + Bump version debhelper build-dependency accordingly.
+  * Fix misspelling of the GPL's full name in debian/copyright.
+  * Add patch by J.C. Cleaver to fix segfaults in xymongen/wmlgen.c
+
+ -- Axel Beckert <abe@debian.org>  Mon, 05 Oct 2015 17:32:44 +0200
+
+xymon (4.3.21-1) unstable; urgency=medium
+
+  * New upstream release
+    + Drop patch acknowledge-malloc (CVE-2015-1430, fixed upstream)
+    + Drop patch fix-xymond-memory-leak (fixed upstream)
+    + Drop patch set-initial-size-for-xymondlog-output (dito)
+    + Drop patch hobbit-ghosts-menu (obsolete in multiple ways)
+    + Refresh and/or update the following patches:
+      - 603151-apache-alias
+      - apache2.4 (and drop most of it)
+      - doc-paths
+      - fix-hyphen-used-as-minus-sign
+      - fix-spelling-errors
+      - hobbit_files_ifexist
+      - hobbitclient-debian
+      - hobbitvars
+      - netstat-ant-vs-ipv6-address-truncating
+    + debian/rules: Don't remove files which are no more there
+    + Ignore false positive lintian warnings about <IfModule>-safeguarded
+      Apache 2.2 directives
+  * debian/watch: Merge the two uversionmangles into one, add /i.
+  * Updated debconf translations:
+    + Danish by Joe Dalton (Closes: #781335)
+    + Swedish by Martin Bagge (Closes: #781679)
+  * debian/gbp.conf: Rename old-style config section [git-import-orig] to
+    [import-orig]
+  * Add lintian overrides for package-contains-hardlink. Xymon server is
+    not suitable for installation on a network file system anyways and
+    cgi-bin and cgi-secure are likely always on the same file
+    system. (Upstream introduced these hardlinks in 4.3.20, see
+    http://lists.xymon.com/archive/2015-May/041718.html for the
+    discussion.)
+  * Add patch to workaround changed "ntpdate -p 2" behaviour by making its
+    "-p" option configurable via xymonserver.cfg and default to "1"
+    instead of "2".  (Closes: #776664)
+
+ -- Axel Beckert <abe@debian.org>  Thu, 28 May 2015 00:09:48 +0200
+
+xymon (4.3.17-6) unstable; urgency=medium
+
+  [ Axel Beckert ]
+  * Add CVE ID to the previous changelog entry.
+  * Debconf translations, thanks!
+    + ru by Yuri Kozlov (Closes: #776126)
+  * Cherry pick two patches from upstream to fix multiple memory leaks.
+    (Closes: #778343)
+
+  [ Christian Kastner ]
+  * Document license of sha?.* files in debian/copyright (Closes: #775590)
+
+ -- Axel Beckert <abe@debian.org>  Fri, 13 Feb 2015 21:59:49 +0100
+
+xymon (4.3.17-5) unstable; urgency=medium
+
+  [ Christoph Berg ]
+  * Restore the lost ROOTFS variable in xymonclient-linux.sh, and patch
+    xymond/rrd/do_disk.c to ignore duplicate submissions for the / partition.
+    (Closes: #767901)
+  * Fix buffer overrun in web/acknowledge.c (Closes: #776007, CVE-2015-1430)
+  * Debconf translations, thanks!
+    + pt by Américo Monteiro (Closes: #767840)
+    + fr by Jean-Pierre Giraud (Closes: #770168)
+    + nl by Frans Spiesschaert (Closes: #771182)
+
+  [ Axel Beckert ]
+  * Fix aborting installation in cases where a hobbit user exists despite
+    hobbit-client was not installed before. (LP: #1407498)
+
+ -- Christoph Berg <christoph.berg@credativ.de>  Thu, 22 Jan 2015 17:37:26 +0100
+
+xymon (4.3.17-4) unstable; urgency=medium
+
+  * Add debconf question to disable the automatic migration from hobbit to
+    xymon. (hobbit-client/automatic-xymon-migration; default true)
+
+ -- Christoph Berg <christoph.berg@credativ.de>  Thu, 23 Oct 2014 14:31:57 +0200
+
+xymon (4.3.17-3) unstable; urgency=low
+
+  [ Axel Beckert ]
+  * Fix Vcs-Browser URL and switch it to new cgit web interface.
+  * Add README to /etc/xymon/clientlaunch.d listing file name requirements
+    (LP: #401393)
+  * Overwork package descriptions.
+  * Add lintian overrides for init.d-script-depends-on-all-virtual-facility
+  * Bump Standards-Version to 3.9.6 (no changes needed).
+
+  [ Christoph Berg ]
+  * Rename xymonlaunch-include to tasks-include.
+  * Stop providing hobbit-client in the xymon-client init script.
+
+ -- Axel Beckert <abe@debian.org>  Mon, 06 Oct 2014 17:46:28 +0200
+
+xymon (4.3.17-2) unstable; urgency=low
+
+  * Upload to unstable again.
+
+  [ Christoph Berg ]
+  *  Always write /var/run/xymon/xymonclient-include.cfg on clients
+
+  [ Axel Beckert ]
+  * Add build-dependency on libc-ares-dev to avoid using embedded code
+    copy at xymonnet/c-ares-1.7.3.tar.gz
+  * Fix includes for graph definitions (xymongraph.d → graphs.d)
+    + Add a Breaks for hobbit-plugins << 20140519~
+  * Remove reference to /etc/apache2/ from xymon-client.NEWS
+  * Fix remaining issues of the Apache 2.2 → 2.4 transition
+    (modifies mostly debian/rules, xymon.postinst and xymon.maintscript)
+    + Fix conffile paths in README.Debian and xymon.maintscript
+    + Use dh_apache2 and apache2-maintscript-helper
+    + Add build-dependency on dh-apache2.
+    + Add lintian override for missing-build-dependency-for-dh_-command
+      (see #748688)
+    + Enable Apache's mod_rewrite + CGI support automatically in postinst
+    + Add patch to switch default configuration to Apache 2.4 style
+      authorization.
+    + Closes: #669776
+  * Let xymon depend on perl until after the Jessie release to make sure
+    prename is there for the data migration from hobbit to xymon.
+  * Add lintian override for apache2-reverse-dependency-calls-invoke-rc.d
+    -- it finds the fallback for apache2-maintscript-helper unavailability
+
+ -- Axel Beckert <abe@debian.org>  Tue, 20 May 2014 22:56:11 +0200
+
+xymon (4.3.17-1) experimental; urgency=low
+
+  [ Axel Beckert ]
+  * New upstream release
+    - Fixes remote file deletion vulnerability (Closes: #717895,
+      CVE-2013-4173)
+    - Refreshed and updated patches where needed
+  * Apache 2.2 → 2.4 Migration:
+    + Rename /etc/apache2/conf.d/xymon to …/conf-available/xymon.conf
+      (Fixes lintian warnings non-standard-apache2-configuration-name and
+      apache2-reverse-dependency-uses-obsolete-directory)
+  * Add -W option to "netstat -ant" in client/xymonclient-linux.sh to
+    avoid IPv6 address truncating in ports check. (Closes: #734867)
+  * Bump Standards-Version to 3.9.5 (no changes)
+  * Add a debian/upstream/metadata file according to DEP-12.
+
+  [ Christoph Berg ]
+  * Rename /etc/xymon/xymongraph.d to graphs.d to match graphs.cfg.
+  * Move the include patching for clientlaunch.cfg/d from debian/rules to the
+    hobbitvars patch.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 28 Feb 2014 23:33:43 +0100
+
+xymon (4.3.11-1) experimental; urgency=low
+
+  [ Axel Beckert ]
+  * New upstream release
+    - Removed patch 622069-sslv2-deprecation (solved upstream)
+    - Refreshed and updated patches where needed
+    - Add build/test-clockgettime-librt to debian/clean
+  * Update dependencies for smooth upgrade: xymon-client breaks earlier
+    versions of xymon and xymon depends on a current xymon-client.
+    (Closes: #699611)
+  * Add build-dependency on procps so that the build system finds the
+    paths to uptime and top.
+  * xymon-client: Depend on procps for pkill in postinst script
+    (Closes: #679706; LP: #1042821)
+  * xymon-client: Ignore exit code of pkill in postinst script
+    (LP: #1069227)
+  * debian/rules improvements:
+    + No more ignore dh_lintian failures
+    + Use dh_auto_clean
+  * Update watch file:
+    + ignore pre-built binary packages for distributions which use
+      .tar.gz. as package suffix.
+    + support release canditates
+  * Add patch to support scientific notation for NCV data.
+  * Bump Standards-Version to 3.9.4 (no changes)
+  * Fixed the following lintian warnings:
+    + vcs-field-not-canonical
+    + hardening-no-fortify-functions (by passing CPPFLAGS via CFLAGS)
+    + hardening-no-relro (by passing LDFLAGS via CFLAGS)
+    + duplicate-files (xymonserver-migration.cfg)
+  * Apply wrap-and-sort.
+
+  [ Christoph Berg ]
+  * Migrate /etc/default/hobbit-client on upgrade (Closes: #679766)
+  * Remove trailing slash from Alias in Apache configs (Closes: #603151)
+  * Mount a tmpfs on /var/lib/xymon/tmp if TMPFSSIZE is set in
+    /etc/default/xymon-client.
+  * Update logrotate config for /var/log/xymon.
+
+ -- Axel Beckert <abe@debian.org>  Thu, 23 May 2013 23:03:49 +0200
+
+xymon (4.3.7-1) experimental; urgency=low
+
+  * New upstream release (Closes: #622574, LP: #1017868)
+
+  [ Christoph Berg ]
+  * Acknowledge and incorporate NMU by gregor herrmann
+  * Remove indep rules (left-overs from transitional packages)
+
+  [ Axel Beckert ]
+  * Add myself to Uploaders
+  * Recommend a CGI-capable web server, defaulting to apache2
+  * Update Homepage header to point to http://xymon.sourceforge.net/
+  * Make git repo git-buildpackage capable
+    + Ignore upstream's debian directory when importing upstream sources
+    + No more have upstream sources listed in .gitignore
+  * Remove the following patches (applied upstream):
+    + new-menu
+    + hobbitd-rrdparameters
+    + 530227-hobbitclient-bashism
+  * Add new patch fix-configure-for-multiarch (Closes: #639080)
+  * Refreshed the following patches and partially added one-liner comments
+    to make lintian happy:
+    + htmlcontenttype
+    + doc-paths
+    + hobbitclient-debian
+    + hobbitvars
+    + hobbitgraph.netstat
+    + hobbit-ghosts-menu
+    + rrd_net_granularity
+    + hobbitgraph.mailq
+    + hobbitclient-tmpfs
+    + hobbit_files_ifexist
+    + 580493-negative-timeoffset
+    + kfreebsd-makefile
+    + bbcombotest-fix
+    + 622069-sslv2-deprecation
+  * Remove remaining traces of the debian-specific menu
+    + Remove note about rebuilt upstream tarball from debian/copyright
+    + Remove the menu from debian/rules, debian/xymon.install, etc.
+  * Move from /etc/hobbit/ to /etc/xymon/.
+    + Add xymon.NEWS entry and new xymon-client.NEWS file.
+    + Install upgrade-to-430.txt and Renaming-430.txt as documentation
+    + Install some files from xymond/etcfiles as examples
+    + Adapt paths, variable names, etc. in debian/* accordingly.
+    + Add pre-dependency on ${misc:Pre-Depends} for *.maintscript
+    + Install upstream's migration tools to /usr/lib/xymon/server/libexec/
+      and upstream's migration documentation to /usr/share/doc/xymon/
+    + Stop old Hobbit daemons earlier, reload Apache later
+    + Kill remaining vmstat processes and then delete user+group hobbit
+      after chowning+chgrping files to xymon. Don't bail out if that fails.
+    + At the end, remove all _empty_ directories in /etc/hobbit/ and
+      possibly /etc/hobbit itself.
+    + Rename data, history and rrd files according to Renaming-430.txt
+    + Bump debhelper build dependency to >= 8.1.0~
+    + Breaks hobbit-plugins < 20120619
+    + Export DPKG_MAINTSCRIPT_PACKAGE and DPKG_MAINTSCRIPT_NAME in all
+      maintainer scripts manually to make reconfiguring work with older
+      debconf versions (cf. #560317, present on Squeeze)
+  * Enabled hardening build flags
+    + Bump dpkg-dev build dependency to >= 1.16.1~
+  * Update debconf po templates for Hobbit → Xymon rename
+  * Replace last hardcoded occurrence of pid file name in init.d script
+  * Fix enforcement of non-parallel builds
+  * Let dh_clean do all the clean up, no more calling rm in clean target
+  * Bump Standards-Version to 3.9.3 (no changes)
+  * Mention OpenSSL linkage exception from upstream's README file in
+    debian/copyright (fixes lintian error
+    possible-gpl-code-linked-with-openssl)
+  * Update copyright years in debian/copyright
+  * Switch to source format "3.0 (quilt)"
+    + Remove traces of explicit quilt usage.
+  * Fixed lintian warnings:
+    + copyright-refers-to-symlink-license
+    + conflicts-with-version
+    + unused-override
+      possibly-insecure-handling-of-tmp-files-in-maintainer-script
+    + duplicate-changelog-files
+    + executable-not-elf-or-script (fix permissions in
+      /var/lib/xymon/www/menu/)
+  * Add patches to fix the following lintian warnings:
+    + spelling-error-in-binary
+    + spelling-error-in-manpage (one overriden)
+    + hyphen-used-as-minus-sign
+
+ -- Axel Beckert <abe@debian.org>  Tue, 26 Jun 2012 20:16:23 +0200
+
+xymon (4.3.0~beta2.dfsg-9.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "FTBFS: PCRE not found": patch from Ubuntu / Steve Langasek:
+    - debian/rules: pass --pcrelib to find libpcre in the multiarch dir
+      LP: #749190.
+    Additionally build-depend on dpkg-dev (>= 1.16.0) and
+    libpcre3-dev (>= 8.12-4~). (Closes: #651231)
+  * Since this Ubuntu patch, SSL and LDAP also went multiarch, so:
+    - also pass --ssllib and --ldaplib to configure in debian/rules
+    - build-depend on libssl-dev (>= 1.0.0e-1~) and libldap2-dev (>= 2.4.25-2~)
+  * libpng also went multiarch, so build/rrd.sh doesn't find it, and there's
+    no option for configure. Add patch png-multiarch that changes build/rrd.sh
+    to use libpng12-config instead of guessing.
+
+ -- gregor herrmann <gregoa@debian.org>  Mon, 26 Dec 2011 23:40:38 +0100
+
+xymon (4.3.0~beta2.dfsg-9) unstable; urgency=low
+
+  [ Axel Beckert ]
+  * Change SF project name from hobbitmon to xymon in debian/watch.
+
+  [ Christoph Berg ]
+  * Remove transitional packages hobbit and hobbit-client.
+  * Add /run to the default tmpfs ignore list in hobbit-clients.cfg.
+    (Closes: #633061)
+  * Move hobbit HOME to /var/lib/hobbit (does not affect existing
+    installations). (Closes: #608787)
+
+ -- Christoph Berg <myon@debian.org>  Fri, 08 Jul 2011 10:54:50 +0200
+
+xymon (4.3.0~beta2.dfsg-8) unstable; urgency=low
+
+  * libssl1.0.0 removes SSLv2_client_method(), stop using it and document in
+    bb-hosts(5) that testing "https2" will in fact use v3. (Closes: #621115)
+
+ -- Christoph Berg <myon@debian.org>  Tue, 12 Apr 2011 13:19:22 +0200
+
+xymon (4.3.0~beta2.dfsg-7) experimental; urgency=low
+
+  * Allow negative time offset (clock too fast) in clock.rrd. Patch by
+    Roland Rosenfeld. (Closes: #580493)
+  * Add postinst code to fix old clock.rrd files using rrdtool.
+  * Fix bbcombotest: "Could not access hobbitd board, error 0".
+  * Debconf translation: Danish by Joe Hansen, thanks! (Closes: #605324)
+
+ -- Christoph Berg <myon@debian.org>  Sun, 05 Dec 2010 12:21:01 +0100
+
+xymon (4.3.0~beta2.dfsg-6) unstable; urgency=low
+
+  * Support GNU/kFreeBSD by adding a Makefile and a config snippet that
+    pretends we are running on Linux. (Closes: #458417)
+  * Tweak hobbitclient-linux.sh to report 'df' data without /proc/filesystems
+    mounted.
+
+ -- Christoph Berg <myon@debian.org>  Fri, 09 Apr 2010 00:17:03 +0200
+
+xymon (4.3.0~beta2.dfsg-5) unstable; urgency=low
+
+  * Add HTMLCHARSET headers to all html pages generated.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 19 Jan 2010 12:08:47 +0100
+
+xymon (4.3.0~beta2.dfsg-4) unstable; urgency=low
+
+  * Japanese debconf translation, thanks Hideki Yamane. (Closes: #558065)
+  * Fix bashism in hobbitclient-linux.sh, thanks Raphael Geissert.
+    (Closes: #530227)
+  * Ignore apache2 reload errors in postinst. Suggested by Giacomo Catenazzi.
+    (Closes: #528195)
+
+ -- Christoph Berg <myon@debian.org>  Wed, 02 Dec 2009 14:18:48 +0100
+
+xymon (4.3.0~beta2.dfsg-3) unstable; urgency=low
+
+  * Fix SPLITNCV rrd generation.
+  * Czech debconf translation added, thanks Martin Šín. (Closes: #535029)
+  * Update Build-Depends to librrd-dev, dropping Sarge support.
+  * Bump Standards-Version and DH compat level.
+
+ -- Christoph Berg <myon@debian.org>  Sun, 16 Aug 2009 14:32:56 +0200
+
+xymon (4.3.0~beta2.dfsg-2) unstable; urgency=low
+
+  * Mangle upstream version number in watch file.
+  * Really fix librrd dependency. Thanks to Achim Schaefer for spotting.
+    (Again Closes: #521045)
+  * Once again a patch for using LDAP_DEPRECATED from dann frazier, now
+    for the build/ directory. Thanks! (Closes: #526176)
+  * Removing Martin from Uploaders.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 30 Apr 2009 16:22:10 +0200
+
+xymon (4.3.0~beta2.dfsg-1) unstable; urgency=low
+
+  * New upstream release candidate. (Closes: #497819, #511560)
+  * Rebuilding fixes librrd dependency. (Closes: #521045)
+  * Forbid parallel building.
+  * init scripts create /var/run/hobbit if missing. By Axel Beckert.
+  * init scripts properly support 'status'. By Peter Eisentraut.
+    (Closes: #525347)
+  * Uploading to unstable, and adding transitional packages replacing hobbit
+    and hobbit-client.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 28 Apr 2009 12:49:05 +0200
+
+xymon (4.2.3~rc1.dfsg-1) experimental; urgency=low
+
+  * New upstream release candidate.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 12 Feb 2009 16:25:24 +0100
+
+xymon (4.2.2.dfsg-2) experimental; urgency=low
+
+  * Add "IFEXIST" patch to hobbit-clients.cfg/files test. By Bernd Zeimetz.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 19 Jan 2009 17:11:51 +0100
+
+xymon (4.2.2.dfsg-1) experimental; urgency=low
+
+  * Hobbit was renamed to Xymon (pronounced 'simon'). We only rename the
+    packages for now, most of the filenames stay the same.
+    http://www.hswn.dk/hobbiton/2008/11/msg00123.html
+  * New upstream version mostly consisting of the "all-in-one" patch and
+    support for BBWin clients.
+  * Remove patches that went upstream: bbgen_ASN1_UTCTIME, disk-linecount,
+    http-proxy-url, ldap-deprecated, ncv-ignoretext.patch.
+  * Known issue: only the first dns test for a host works.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 15 Jan 2009 09:55:18 +0100
+
+hobbit (4.2.0.dfsg-16) unstable; urgency=low
+
+  * Spanish debconf translation, thanks Enrique Monge. (Closes: #505206)
+
+ -- Christoph Berg <myon@debian.org>  Mon, 10 Nov 2008 17:31:58 +0100
+
+hobbit (4.2.0.dfsg-15) unstable; urgency=medium
+
+  * bbnet/contest.c: Do not crash on long-living SSL certs. (Closes: #503111)
+
+ -- Christoph Berg <myon@debian.org>  Sat, 25 Oct 2008 14:04:35 +0200
+
+hobbit (4.2.0.dfsg-14) unstable; urgency=low
+
+  * Swedish debconf translation, thanks Martin Ågren. (Closes: #491368)
+
+ -- Christoph Berg <myon@debian.org>  Sat, 19 Jul 2008 01:24:50 +0200
+
+hobbit (4.2.0.dfsg-13) unstable; urgency=low
+
+  * Use lsb init functions.
+  * ncv-ignoretext.patch uses -p1. (Closes: #484950)
+  * Do not ignore tmpfs mountpoints in hobbitclient-linux.sh, but add
+    /dev, /dev/shm, and /lib/init/rw to the default IGNORE list in
+    /etc/hobbit/hobbit-clients.cfg. (Closes: #487157)
+  * Add README.source.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 05 Jul 2008 14:57:16 +0200
+
+hobbit (4.2.0.dfsg-12) unstable; urgency=low
+
+  * Debconf was broken for the initial install, thanks to Peter Eisentraut for
+    spotting. (Closes: #470988)
+  * Actually include /var/run/hobbit/hobbitclient-include.cfg so
+    /etc/hobbit/hobbitclient.d/ works. Also spotted by Peter.
+  * Use dh_lintian.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 10 May 2008 21:31:25 +0200
+
+hobbit (4.2.0.dfsg-11) unstable; urgency=low
+
+  * Make force-reload reload, not restart in init scripts.
+  * Move init scripts to S98 and Should-Start: $all so monitored services have
+    already started. (S98 only effective on new installs.)
+  * Set umask to 022 on for files in /var/run/hobbit/.
+  * Add patch to allow "/http" in URLs (require full "/http[s]://" for proxy
+    requests).
+  * Add /etc/hobbit/hobbitclient.d/.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 09 Apr 2008 13:32:39 +0200
+
+hobbit (4.2.0.dfsg-10) unstable; urgency=low
+
+  * Add patch by dann frazier to define LDAP_DEPRECATED to continue using the
+    deprecated libldap interfaces, thanks. (Closes: #463424)
+
+ -- Christoph Berg <myon@debian.org>  Fri, 15 Feb 2008 12:18:50 +0100
+
+hobbit (4.2.0.dfsg-9) unstable; urgency=low
+
+  * Add splitncv patch by Charles Goyard.
+  * Updated lintian overrides.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 22 Dec 2007 20:22:45 +0100
+
+hobbit (4.2.0.dfsg-8) unstable; urgency=low
+
+  * Set umask to 022 on startup.
+  * Fix mailq regexp in hobbitgraph.cfg, thanks to Roland Rosenfeld for the
+    patch. (Closes: #450830)
+  * Do not assume the first df output line to be a header. (Closes: #450834)
+  * Add librrd0-dev as alternative to build-depends.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 15 Dec 2007 22:37:27 +0100
+
+hobbit (4.2.0.dfsg-7) unstable; urgency=low
+
+  * Add patch by Roland Rosenfeld to adjust description width in the netstat
+    graphs. (Closes: #447484)
+  * Return 0 in init-common.sh, thanks to Jason Cormie for spotting.
+    (Closes: #448482)
+  * Recreate /usr/lib/hobbit/*/tmp/ symlinks, pointing to /var/lib/hobbit/tmp,
+    and properly set permissions. (Closes: #448489)
+  * Make our HOBBITMENU work for the ghost clients report. (Closes: #446095)
+  * Grab patch from upstream to fix slightly broken NCV parsing.
+  * Add /etc/hobbit/hobbitgraph.d/ and /etc/hobbit/hobbitserver.d/.
+  * Improve TCP tests time granularity.
+  * Translations: Dutch, thanks Bart Cornelis. (Closes: #448934)
+
+ -- Christoph Berg <myon@debian.org>  Thu, 01 Nov 2007 20:51:26 +0100
+
+hobbit (4.2.0.dfsg-6) unstable; urgency=low
+
+  * Remove /usr/lib/hobbit/*/tmp/ symlinks, set BBTMP="/var/lib/hobbit/tmp".
+    (Closes: #446982)
+  * Drop "hobbit" binary again, instead bbcmd will set PATH to include
+    the hobbit binaries.
+  * Add /etc/hobbit/hobbitlaunch.d/ directory for server extensions.
+  * When upgrading from a pre-Debian version, move old directories in
+    /var/lib/hobbit/www/ away, we want them to be symlinks.
+  * Add missing "test" in postrm. Thanks to Yukio Shiiya for the patch.
+    (Closes: #446347)
+  * Add COLUMS=200 to the dpkg -l call for Sarge compatibility.
+  * Add some examples to the default bb-hosts file.
+  * Move the config file tweaking from debian/rules to quilt.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 17 Oct 2007 18:06:02 +0200
+
+hobbit (4.2.0.dfsg-5) unstable; urgency=low
+
+  * The Smith inquisition reviewed our templates - thanks Christian Perrier.
+    (Closes: #442953)
+    + Basque, thanks Piarres Beobide (Closes: #443155).
+    + Vietnamese, thanks Clytie Siddall (Closes: #443161).
+    + Portuguese, thanks Américo Monteiro (Closes: #443214).
+    + Finnish, thanks Esko Arajärvi (Closes: #443617).
+    + Czech, thanks Miroslav Kure (Closes: #443667).
+    + Russian, thanks Yuri Kozlov (Closes: #443861).
+    + Tamil, thanks Tirumurti Vasudevan (Closes: #444281).
+    + Italian, thanks Luca Monducci (Closes: #444610).
+    + French, thanks Geoffroy Youri Berret (Closes: #444659).
+    + Galician, thanks Jacobo Tarrio (Closes: #444751).
+    + Brazilian Portuguese, thanks Felipe Augusto van de Wiel.
+      (Closes: #445339)
+  * Use $BBSERVERWWWURL and friends in menu.cfg.
+  * Fix reading of /etc/default/hobbit-client in config script.
+    (Closes: #445828)
+
+ -- Christoph Berg <myon@debian.org>  Mon, 08 Oct 2007 22:40:39 +0200
+
+hobbit (4.2.0.dfsg-4) unstable; urgency=low
+
+  * Instead of conflicting with bb, rename our 'bb' binary to 'hobbit'.
+    Move bb.1 to bb.8 (Closes: #441030 again).
+  * Send (reformatted) dpkg -l output with client message.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 19 Sep 2007 00:36:23 +0200
+
+hobbit (4.2.0.dfsg-3) unstable; urgency=low
+
+  * Debconf translations:
+    Portuguese, thanks Américo Monteiro (Closes: #439693).
+    French, thanks Geoffroy Youri Berret (Closes: #440504).
+  * Actually install README.Debian and fix paths in html docs
+    (Closes: #440949).
+  * Quiltize source.
+  * hobbit-client:
+    + Conflict with bb (<= 1.3rc1-8), it ships bb.1 (Closes: #441030).
+    + Set missing environment variables (Closes: #441199, thanks Jason
+      Cormie).
+
+ -- Christoph Berg <myon@debian.org>  Fri, 07 Sep 2007 19:13:22 +0200
+
+hobbit (4.2.0.dfsg-2) unstable; urgency=low
+
+  * Install /usr/bin/bb and bbcmd.
+  * Use HOBBITSERVERS in /etc/default/hobbit-client (again).
+  * Consistently use start-stop-daemon for daemon handling.
+  * Priority: extra.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 23 Aug 2007 17:24:10 +0200
+
+hobbit (4.2.0.dfsg-1) unstable; urgency=low
+
+  * Preparing for Debian upload.
+  * Repackaged the source:
+    + Removed non-free tigra menu files from hobbitd/wwwfiles/menu/.
+    + Removed upstream's debian/ dir.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 18 Aug 2007 22:05:09 +0200
+
+hobbit (4.2.0-1) unstable; urgency=low
+
+  * Hobbit version 4.2: New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Wed, 09 Aug 2006 21:48:00 +0200
+
+hobbit (4.2-RC-20060712) unstable; urgency=low
+
+  * Release candidate of 4.2
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Wed, 12 Jul 2006 23:13:00 +0200
+
+hobbit (4.2-beta-20060605) unstable; urgency=low
+
+  * Beta release of 4.2
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Mon, 05 Jun 2006 16:53:00 +0200
+
+hobbit (4.2-alfa-20060404) unstable; urgency=low
+
+  * Alfa release of 4.2
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Tue, 04 Apr 2006 23:30:00 +0200
+
+hobbit (4.1.2p1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Thu, 10 Nov 2005 17:32:00 +0100
+
+hobbit (4.1.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Mon, 10 Oct 2005 22:30:00 +0200
+
+hobbit (4.1.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Mon, 25 Jul 2005 17:49:00 +0200
+
+hobbit (4.1.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Sun, 24 Jul 2005 23:27:00 +0200
+
+hobbit (4.0.4-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Sun, 29 May 2005 12:08:00 +0200
+
+hobbit (4.0.3-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Sun, 22 May 2005 09:34:57 +0200
+
+hobbit (4.0.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Sun, 10 Apr 2005 19:39:15 +0200
+
+hobbit (4.0.1-1) unstable; urgency=low
+
+  * Build problems fixed on Solaris, HP-UX
+  * Zoomed graphs could lose the hostname in the title.
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Fri,  1 Apr 2005 07:43:42 +0200
+
+hobbit (4.0-1) unstable; urgency=low
+
+  * Upstream release of version 4.0
+
+ -- Henrik Stoerner <henrik@hswn.dk>  Wed, 30 Mar 2005 21:31:03 +0200

@@ -1,0 +1,36 @@
+Description: Ignore duplicate submissions for the "/" partition
+Author: Christoph Berg <myon@debian.org>
+Forwarded: http://lists.xymon.com/pipermail/xymon/2015-September/042224.html
+Last-Update: 2015-09-10
+Reviewed-By: Axel Beckert <abe@debian.org>
+
+--- a/xymond/rrd/do_disk.c
++++ b/xymond/rrd/do_disk.c
+@@ -20,6 +20,7 @@ int do_disk_rrd(char *hostname, char *te
+ 	static int ptnsetup = 0;
+ 	static pcre *inclpattern = NULL;
+ 	static pcre *exclpattern = NULL;
++	int seen_root_fs = 0;
+ 
+ 	if (strstr(msg, "netapp.pl")) return do_netapp_disk_rrd(hostname, testname, classname, pagepaths, msg, tstamp);
+ 	if (strstr(msg, "dbcheck.pl")) return do_dbcheck_tablespace_rrd(hostname, testname, classname, pagepaths, msg, tstamp);
+@@ -163,6 +164,19 @@ int do_disk_rrd(char *hostname, char *te
+ 
+ 		/* Check include/exclude patterns */
+ 		wanteddisk = 1;
++		/*
++		 * On some systems, including the Debian Wheezy default setup,
++		 * df shows two entries for / (one for "rootfs", one for the
++		 * real device). Skip the second one or else the rrd files
++		 * produced contain ugly gaps. (A complete fix would do this
++		 * for all filesystems, but this case should be rare.)
++		 */
++		if (!strcmp(diskname, "/")) {
++			if (seen_root_fs)
++				wanteddisk = 0;
++			else
++				seen_root_fs = 1;
++		}
+ 		if (exclpattern) {
+ 			int ovector[30];
+ 			int result;

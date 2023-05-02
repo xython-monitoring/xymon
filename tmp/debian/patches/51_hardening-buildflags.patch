@@ -1,0 +1,23 @@
+Description: Care that CFLAGS set in debian/rules are honoured.
+Author: Axel Beckert <abe@debian.org>
+Forwarded: no
+Last-Update: 2015-09-10
+
+Index: xymon/build/Makefile.Linux
+===================================================================
+--- xymon.orig/build/Makefile.Linux	2012-06-12 17:12:05.000000000 +0200
++++ xymon/build/Makefile.Linux	2012-06-12 18:29:17.000000000 +0200
+@@ -7,12 +7,7 @@
+ 
+ # Compile flags for normal build
+ CC = gcc
+-GCCVER := $(shell test 0`gcc -dumpversion|cut -d. -f1` -ge 4 && echo yes)
+-ifeq ($(GCCVER),yes)
+-   CFLAGS = -g -O2 -Wall -Wno-unused -I/usr/include/tirpc -Wno-pointer-sign -D_REENTRANT $(LFSDEF) $(OSDEF)
+-else
+-   CFLAGS = -g -O2 -Wall -Wno-unused -I/usr/include/tirpc -D_REENTRANT $(LFSDEF) $(OSDEF)
+-endif
++CFLAGS += -Wall -Wno-unused -I/usr/include/tirpc -Wno-pointer-sign -D_REENTRANT $(LFSDEF) $(OSDEF)
+ 
+ ifndef PKGBUILD
+ RPATH = -Wl,--rpath,

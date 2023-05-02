@@ -1,0 +1,26 @@
+Description: prefer temp plugin over temp values from devmon
+ hobbit-plugins ships a temp plugin which supports putting temperature
+ data into RRD and showing them as graphs. But the latter doesn't work
+ if "temp=devmon" is listed in TEST2RRD.
+ .
+ That setting is meant for gathering temperatures from SNMP via the
+ not packaged devmon (http://devmon.sourceforge.net/).
+ .
+ So for now we prefer working shipped plugins over supporting
+ non-packaged add-on daemons.
+Author: Axel Beckert <abe@debian.org>
+Forwarded: not-needed
+
+Index: xymon/xymond/etcfiles/xymonserver.cfg.DIST
+===================================================================
+--- xymon.orig/xymond/etcfiles/xymonserver.cfg.DIST	2015-10-30 16:31:22.000000000 +0100
++++ xymon/xymond/etcfiles/xymonserver.cfg.DIST	2015-10-30 16:31:22.000000000 +0100
+@@ -168,7 +168,7 @@
+ #
+ # TEST2RRD and GRAPHS_* are used by the svcstatus.cgi script to determine if the detailed
+ # status view of a test should include a graph.
+-TEST2RRD="cpu=la,disk,inode,qtree,memory,$PINGCOLUMN=tcp,http=tcp,dns=tcp,dig=tcp,time=ntpstat,vmstat,iostat,netstat,temperature,apache,bind,sendmail,mailq,nmailq=mailq,socks,bea,iishealth,citrix,bbgen,bbtest,bbproxy,hobbitd,files,procs=processes,ports,clock,lines,deltalines,ops,stats,cifs,JVM,JMS,HitCache,Session,JDBCConn,ExecQueue,JTA,TblSpace,RollBack,MemReq,InvObj,snapmirr,snaplist,snapshot,if_load=devmon,temp=devmon,paging,mdc,mdchitpct,cics,dsa,getvis,maxuser,nparts,xymongen,xymonnet,xymonproxy,xymond"
++TEST2RRD="cpu=la,disk,inode,qtree,memory,$PINGCOLUMN=tcp,http=tcp,dns=tcp,dig=tcp,time=ntpstat,vmstat,iostat,netstat,temperature,apache,bind,sendmail,mailq,nmailq=mailq,socks,bea,iishealth,citrix,bbgen,bbtest,bbproxy,hobbitd,files,procs=processes,ports,clock,lines,deltalines,ops,stats,cifs,JVM,JMS,HitCache,Session,JDBCConn,ExecQueue,JTA,TblSpace,RollBack,MemReq,InvObj,snapmirr,snaplist,snapshot,if_load=devmon,paging,mdc,mdchitpct,cics,dsa,getvis,maxuser,nparts,xymongen,xymonnet,xymonproxy,xymond"
+ 
+ # This defines which RRD files to include on the "trends" column webpage,
+ # and the order in which they appear.

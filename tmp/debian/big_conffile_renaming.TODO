@@ -1,0 +1,11 @@
+SERVER:
+
+Seem to be new (or must not be included but are):
+
+/etc/xymon/holidays.cfg
+/etc/xymon/rrddefinitions.cfg
+/etc/xymon/snmpmibs.cfg
+/etc/xymon/web/critmulti_header
+/etc/xymon/web/divider_footer
+/etc/xymon/web/divider_header
+****/etc/hobbit/web/menu.cfg****

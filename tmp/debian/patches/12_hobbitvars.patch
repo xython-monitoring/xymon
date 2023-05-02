@@ -1,0 +1,230 @@
+Description: Fix paths to fit into the Debian directory structure
+Forwarded: not-needed
+Last-Update: 2015-10-30
+
+Index: xymon/xymond/etcfiles/xymonserver.cfg.DIST
+===================================================================
+--- xymon.orig/xymond/etcfiles/xymonserver.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/xymond/etcfiles/xymonserver.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -5,8 +5,8 @@
+ XYMONCLIENTHOME="@XYMONTOPDIR@/client"		# XYMONHOME directory for the client
+ 
+ 
+-XYMONSERVERHOSTNAME="@XYMONHOSTNAME@"		# The hostname of your server
+-XYMONSERVERIP="@XYMONHOSTIP@"			# The IP-address of your server. Use the real one, not 127.0.0.1 .
++include /etc/default/xymon-client
++XYMONSERVERHOSTNAME="$CLIENTHOSTNAME"
+ XYMONSERVEROS="@XYMONHOSTOS@"			# The operating system of your server. linux,freebsd,solaris,hpux,aix,osf
+ 
+ XYMONSERVERWWWNAME="@XYMONHOSTNAME@"		# The name used for this hosts' webserver
+@@ -36,8 +36,7 @@
+ 
+ # General settings
+ XYMONDPORT="1984"		# Portnumber where xymond listens
+-XYMSRV="$XYMONSERVERIP"		# IP of a single Xymon server
+-XYMSERVERS=""			# IP of multiple Xymon servers. If used, XYMSRV must be 0.0.0.0
++include /var/run/xymon/bbdisp-runtime.cfg
+ FQDN="TRUE"			# Use fully-qualified hostnames internally. Keep it TRUE unless you know better.
+ XYMONLOGSTATUS="DYNAMIC"	# Are HTML status logs statically or dynamically generated?
+ 				# Use DYNAMIC with Xymon, unless you run xymond_filestore --status --html
+@@ -83,7 +82,7 @@
+ XYMONWEBHOSTURL="$XYMONWEBHOST$XYMONSERVERWWWURL"	# Prefix for all static Xymon pages - http://www.foo.com/xymon
+ XYMONWEBHTMLLOGS="$XYMONWEBHOSTURL/html"	# Prefix for the Xymon HTML logs (only if XYMONLOGSTATUS=STATIC)
+ XYMONWEB="$XYMONSERVERWWWURL"			# Xymon URL prefix without the host part
+-XYMONSKIN="$XYMONSERVERWWWURL/gifs"		# Xymon URL prefix for the GIF files
++XYMONSKIN="$XYMONSERVERWWWURL/gifs/static"	# Xymon URL prefix for the GIF files
+ XYMONHELPSKIN="$XYMONSERVERWWWURL/help"         # Xymon URL prefix for the online help files.
+ XYMONNOTESSKIN="$XYMONSERVERWWWURL/notes"       # Xymon URL prefix for the online notes-files.
+ XYMONMENUSKIN="$XYMONSERVERWWWURL/menu"         # Xymon URL prefix for the webpage menu files.
+@@ -95,7 +94,7 @@
+ 
+ # Locations of system-wide files and directories
+ XYMONHOME="@XYMONHOME@"				# The Xymon server directory, where programs and configurations go. 
+-XYMONTMP="$XYMONHOME/tmp"			# Directory used for temporary files.
++XYMONTMP="/var/lib/xymon/tmp"			# Directory used for temporary files.
+ HOSTSCFG="$XYMONHOME/etc/hosts.cfg"		# The hosts.cfg file
+ XYMON="$XYMONHOME/bin/xymon"			# The 'xymon' client program
+ XYMONGEN="$XYMONHOME/bin/xymongen"		# The xymongen program
+@@ -321,3 +320,5 @@
+ HOBBITCLIENTHOME="$XYMONCLIENTHOME"
+ BBCLIENTLOGS="$XYMONSERVERLOGS"
+ 
++include /var/run/xymon/xymonclient-include.cfg
++include /var/run/xymon/xymonserver-include.cfg
+Index: xymon/xymond/etcfiles/xymon-apache-open.DIST
+===================================================================
+--- xymon.orig/xymond/etcfiles/xymon-apache-open.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/xymond/etcfiles/xymon-apache-open.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -16,11 +16,11 @@
+     Options Indexes FollowSymLinks Includes MultiViews
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+-        Require all granted
++        Require local
+     </IfModule>
+     <IfModule !mod_authz_core.c>
+         Order deny,allow
+-        Allow from all
++        Allow from localhost ::1/128
+     </IfModule>
+ </Directory>
+ 
+@@ -30,11 +30,11 @@
+     Options ExecCGI Includes
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+-        Require all granted
++        Require local
+     </IfModule>
+     <IfModule !mod_authz_core.c>
+         Order deny,allow
+-        Allow from all
++        Allow from localhost ::1/128
+     </IfModule>
+ </Directory>
+ 
+Index: xymon/xymond/etcfiles/xymon-apache-secure.DIST
+===================================================================
+--- xymon.orig/xymond/etcfiles/xymon-apache-secure.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/xymond/etcfiles/xymon-apache-secure.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -16,11 +16,11 @@
+     Options Indexes FollowSymLinks Includes MultiViews
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+-        Require all granted
++        Require local
+     </IfModule>
+     <IfModule !mod_authz_core.c>
+         Order deny,allow
+-        Allow from all
++        Allow from localhost ::1/128
+     </IfModule>
+ </Directory>
+ 
+@@ -30,11 +30,11 @@
+     Options ExecCGI Includes
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+-        Require all granted
++        Require local
+     </IfModule>
+     <IfModule !mod_authz_core.c>
+         Order deny,allow
+-        Allow from all
++        Allow from localhost ::1/128
+     </IfModule>
+ </Directory>
+ 
+@@ -44,11 +44,11 @@
+     Options ExecCGI Includes
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+-        Require all granted
++        Require local
+     </IfModule>
+     <IfModule !mod_authz_core.c>
+         Order deny,allow
+-        Allow from all
++        Allow from localhost ::1/128
+     </IfModule>
+ 
+     # Password file where users with access to these scripts are kept.
+Index: xymon/xymond/etcfiles/tasks.cfg.DIST
+===================================================================
+--- xymon.orig/xymond/etcfiles/tasks.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/xymond/etcfiles/tasks.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -18,7 +18,7 @@
+ # you want to run).
+ [xymond]
+ 	ENVFILE @XYMONHOME@/etc/xymonserver.cfg
+-	CMD xymond --pidfile=$XYMONSERVERLOGS/xymond.pid \
++	CMD xymond --pidfile=/var/run/xymon/xymond.pid \
+ 		--restart=$XYMONTMP/xymond.chk --checkpoint-file=$XYMONTMP/xymond.chk --checkpoint-interval=600 \
+ 		--log=$XYMONSERVERLOGS/xymond.log \
+ 		--admin-senders=127.0.0.1,$XYMONSERVERIP \
+@@ -100,7 +100,7 @@
+ [xymonproxy]
+ 	DISABLED
+ 	ENVFILE @XYMONHOME@/etc/xymonserver.cfg
+-	CMD $XYMONHOME/bin/xymonproxy --server=YOUR.XYMON.SERVER.IP --report=$MACHINE.xymonproxy --no-daemon --pidfile=$XYMONSERVERLOGS/xymonproxy.pid
++	CMD $XYMONHOME/bin/xymonproxy --server=YOUR.XYMON.SERVER.IP --report=$MACHINE.xymonproxy --no-daemon --pidfile=/var/run/xymon/xymonproxy.pid
+ 	LOGFILE $XYMONSERVERLOGS/xymonproxy.log
+ 
+ 
+@@ -115,7 +115,7 @@
+ [xymonfetch]
+ 	DISABLED
+ 	ENVFILE @XYMONHOME@/etc/xymonserver.cfg
+-	CMD $XYMONHOME/bin/xymonfetch --server=YOUR.XYMON.SERVER.IP --no-daemon --pidfile=$XYMONSERVERLOGS/xymonfetch.pid
++	CMD $XYMONHOME/bin/xymonfetch --server=YOUR.XYMON.SERVER.IP --no-daemon --pidfile=/var/run/xymon/xymonfetch.pid
+ 	LOGFILE $XYMONSERVERLOGS/xymonfetch.log
+ 
+ 
+@@ -247,7 +247,5 @@
+ 	CMD xymond_channel --channel=notes  --log=$XYMONSERVERLOGS/notes.log xymond_filestore --notes
+ 
+ 
+-
+-# Include add-on modules.
+-directory @XYMONHOME@/etc/tasks.d
+-
++include /var/run/xymon/clientlaunch-include.cfg
++include /var/run/xymon/tasks-include.cfg
+Index: xymon/client/clientlaunch.cfg.DIST
+===================================================================
+--- xymon.orig/client/clientlaunch.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/client/clientlaunch.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -16,7 +16,7 @@
+ [msgcache]
+ 	DISABLED
+ 	ENVFILE $XYMONCLIENTHOME/etc/xymonclient.cfg
+-	CMD $XYMONCLIENTHOME/bin/msgcache --no-daemon --pidfile=$XYMONCLIENTLOGS/msgcache.pid
++	CMD $XYMONCLIENTHOME/bin/msgcache --no-daemon --pidfile=/var/run/xymon/msgcache.pid
+ 	LOGFILE $XYMONCLIENTLOGS/msgcache.log
+ 
+ # The main client task
+@@ -26,3 +26,4 @@
+ 	LOGFILE $XYMONCLIENTLOGS/xymonclient.log
+ 	INTERVAL 5m
+ 
++include /var/run/xymon/clientlaunch-include.cfg
+Index: xymon/client/xymonclient.cfg.DIST
+===================================================================
+--- xymon.orig/client/xymonclient.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
++++ xymon/client/xymonclient.cfg.DIST	2016-02-05 17:38:30.000000000 +0100
+@@ -1,18 +1,21 @@
+ # Environment settings for the Xymon client.
+ 
+-XYMSRV="@XYMONHOSTIP@"          # IP address of the Xymon server
+-XYMSERVERS=""                   # IP of multiple Xymon servers. XYMSRV must be "0.0.0.0".
++include /etc/default/xymon-client
++include /var/run/xymon/bbdisp-runtime.cfg
+ CONFIGCLASS="$SERVEROSTYPE"     # Default configuration class for logfiles
+ 
+-PATH="/bin:/usr/bin:/sbin:/usr/sbin:/etc"  # PATH setting for the client scripts.
++PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/lib/xymon/client/bin"  # PATH setting for the client scripts.
+ SHELL="/bin/sh"				# Shell to use when forking programs
+ 
+ # You normally don't need to modify anything below here
+ XYMONDPORT="1984"                   # Portnumber where xymond listens
++XYMONCLIENTHOME="/usr/lib/xymon/client"
+ XYMONHOME="$XYMONCLIENTHOME"       # Directory for the Xymon client files
+ XYMON="$XYMONHOME/bin/xymon"          # The Xymon client "xymon" utility
+-XYMONTMP="$XYMONHOME/tmp"             # Where we may store temporary files.
+-XYMONCLIENTLOGS="$XYMONHOME/logs"     # Where we store the client logfiles
++XYMONTMP="/var/lib/xymon/tmp"     # Where we may store temporary files.
++XYMONCLIENTLOGS="/var/log/xymon"  # Where we store the client logfiles
++
++include /var/run/xymon/xymonclient-include.cfg
+ 
+ # Options to logfetch, the xymon binary which examines log files for recent changes.
+ LOGFETCHOPTS=""
+Index: xymon/xymond/etcfiles/graphs.cfg
+===================================================================
+--- xymon.orig/xymond/etcfiles/graphs.cfg	2016-02-05 17:38:30.000000000 +0100
++++ xymon/xymond/etcfiles/graphs.cfg	2016-02-05 17:38:30.000000000 +0100
+@@ -2112,3 +2112,4 @@
+ 
+ ########### end of ifmib graphs ###########
+ 
++include /var/run/xymon/graphs-include.cfg

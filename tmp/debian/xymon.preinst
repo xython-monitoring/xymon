@@ -1,0 +1,54 @@
+#! /bin/sh
+# preinst script for xymon
+
+set -e
+
+# Workaround for http://bugs.debian.org/560317 in case debconf is too old like on Squeeze
+export DPKG_MAINTSCRIPT_PACKAGE=${DPKG_MAINTSCRIPT_PACKAGE:-xymon}
+export DPKG_MAINTSCRIPT_NAME=${DPKG_MAINTSCRIPT_NAME:-preinst}
+
+case "$1" in
+    install|upgrade)
+	# stop the client when the server is installed
+	invoke-rc.d --quiet hobbit-client stop || true
+	invoke-rc.d xymon-client stop || true
+	if test "$2" && dpkg --compare-versions "$2" lt 4.2.0.dfsg-2 &&
+			test -d /var/lib/hobbit/www ; then
+		if test -e /etc/logrotate.d/hobbit && ! test -e /etc/logrotate.d/hobbit.dpkg-old ; then
+			mv /etc/logrotate.d/hobbit /etc/logrotate.d/hobbit.dpkg-old
+		fi
+		# we want to replace directories with symlinks, prod dpkg to do it
+		move_dir () {
+			test -d "$1" || return
+			test -h "$1" && return
+			test -e "$1.dpkg-old" && return
+			mv "$1" "$1.dpkg-old"
+		}
+		cd /var/lib/hobbit/www
+		move_dir gifs
+		move_dir help
+	fi
+	if test "$2" && dpkg --compare-versions "$2" lt 4.3.7-1~~ &&
+			test -d /var/lib/hobbit/www ; then
+		# we want to replace symlinks with directories, prod dpkg to do it
+		move_link () {
+			test -h "$1" || return
+			test -d "$1" && return
+			test -e "$1.dpkg-old" && return
+			mv "$1" "$1.dpkg-old"
+		}
+		cd /var/lib/hobbit/www
+		move_link menu
+	fi
+	#446982
+	if test "$2" && dpkg --compare-versions "$2" ge 4.2.0.dfsg-1 &&
+			dpkg --compare-versions "$2" lt 4.2.0.dfsg-6 ; then
+		chown root:root /tmp
+		chmod 1777 /tmp
+	fi
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

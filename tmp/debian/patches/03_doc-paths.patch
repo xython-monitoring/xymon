@@ -1,0 +1,60 @@
+Description: Change paths in documentation to fit Debian paths
+Forwarded: not-needed
+Bug-Debian: https://bugs.debian.org/440949
+Author: Christoph Berg <myon@debian.org>
+Last-Update: 2015-09-10
+Reviewed-By: Axel Beckert <abe@debian.org>
+
+Index: xymon/docs/xymon-apacheconf.txt
+===================================================================
+--- xymon.orig/docs/xymon-apacheconf.txt	2015-05-26 13:31:34.000000000 +0200
++++ xymon/docs/xymon-apacheconf.txt	2015-05-26 13:31:34.000000000 +0200
+@@ -9,10 +9,10 @@
+ #     the Xymon webfiles as the root URL. In that case,
+ #     you should instead set this:
+ #
+-#          DocumentRoot /usr/local/xymon/server/www/
++#          DocumentRoot /usr/lib/xymon/server/www/
+ 
+-Alias /xymon/  "/usr/local/xymon/server/www/"
+-<Directory "/usr/local/xymon/server/www/">
++Alias /xymon  "/usr/lib/xymon/server/www"
++<Directory "/usr/lib/xymon/server/www">
+     Options Indexes FollowSymLinks Includes MultiViews
+     <IfModule mod_authz_core.c>
+         # Apache 2.4+
+@@ -24,8 +24,8 @@
+     </IfModule>
+ </Directory>
+ 
+-ScriptAlias /xymon-cgi/ "/usr/local/xymon/cgi-bin/"
+-<Directory "/usr/local/xymon/cgi-bin">
++ScriptAlias /xymon-cgi "/usr/lib/xymon/cgi-bin"
++<Directory "/usr/lib/xymon/cgi-bin">
+     AllowOverride None
+     Options ExecCGI Includes
+     <IfModule mod_authz_core.c>
+@@ -38,8 +38,8 @@
+     </IfModule>
+ </Directory>
+ 
+-ScriptAlias /xymon-seccgi/ "/usr/local/xymon/cgi-secure/"
+-<Directory "/usr/local/xymon/cgi-secure">
++ScriptAlias /xymon-seccgi "/usr/lib/xymon/cgi-secure"
++<Directory "/usr/lib/xymon/cgi-secure">
+     AllowOverride None
+     Options ExecCGI Includes
+     <IfModule mod_authz_core.c>
+Index: xymon/docs/install.html
+===================================================================
+--- xymon.orig/docs/install.html	2015-05-26 13:31:34.000000000 +0200
++++ xymon/docs/install.html	2015-05-26 13:31:34.000000000 +0200
+@@ -165,7 +165,7 @@
+ password-file that controls access to this directory. Use the <tt>htpasswd</tt>
+ command both to create the password file and to add or delete users:<br>
+ <pre><tt>
+-	# /usr/sbin/htpasswd -c /usr/local/xymon/server/etc/xymonpasswd admin
++	# /usr/sbin/htpasswd -c /usr/lib/xymon/server/etc/xymonpasswd admin
+ 	New password:
+ 	Re-type new password:
+ 	Adding password for user admin

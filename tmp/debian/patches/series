@@ -1,0 +1,17 @@
+03_doc-paths.patch
+09_hobbitclient-debian.patch
+12_hobbitvars.patch
+21_FHS-instead-FSSTND-in-example-in-man-page.patch
+24_hobbitclient-tmpfs.patch
+27_hobbit_files_ifexist.patch
+30_prefer-packaged-temp-plugin-over-unpackaged-devmon.patch
+
+# bug fixes
+33_526176-ldap.patch
+42_bbcombotest-fix.patch
+45_fix-configure-for-multiarch.patch
+48_png-multiarch.patch
+51_hardening-buildflags.patch
+69_disk-no-duplicate-root.patch
+87_fix_logfetch_FTBFS_with_glibc_2.26.patch
+90_reproducible-build.patch

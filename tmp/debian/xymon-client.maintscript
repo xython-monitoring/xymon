@@ -1,0 +1,5 @@
+mv_conffile /etc/init.d/hobbit-client      /etc/init.d/xymon-client      4.3.7-1~~	xymon-client
+mv_conffile /etc/logrotate.d/hobbit-client /etc/logrotate.d/xymon-client 4.3.7-1~~	xymon-client
+mv_conffile /etc/hobbit/localclient.cfg    /etc/xymon/localclient.cfg    4.3.7-1~~	xymon-client
+mv_conffile /etc/hobbit/hobbitclient.cfg   /etc/xymon/xymonclient.cfg    4.3.7-1~~	xymon-client
+mv_conffile /etc/hobbit/clientlaunch.cfg   /etc/xymon/clientlaunch.cfg   4.3.7-1~~	xymon-client

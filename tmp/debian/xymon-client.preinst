@@ -1,0 +1,40 @@
+#! /bin/sh
+# preinst script for xymon-client
+
+. /usr/share/debconf/confmodule
+
+set -e
+
+# Workaround for http://bugs.debian.org/560317 in case debconf is too old like on Squeeze
+export DPKG_MAINTSCRIPT_PACKAGE=${DPKG_MAINTSCRIPT_PACKAGE:-xymon-client}
+export DPKG_MAINTSCRIPT_NAME=${DPKG_MAINTSCRIPT_NAME:-preinst}
+
+case "$1" in
+    upgrade)
+	# Do the debconf stuff
+	db_get hobbit-client/HOBBITSERVERS
+	HOBBITSERVERS="$RET"
+	db_get hobbit-client/CLIENTHOSTNAME
+	CLIENTHOSTNAME="$RET"
+	if [ "$2" ] && dpkg --compare-versions "$2" lt "4.3.7"; then
+		db_get hobbit-client/automatic-xymon-migration
+		if [ "$RET" = "true" ]; then
+			MIGRATE="true"
+			echo "Migrating xymon-client files from hobbit ..."
+		fi
+	fi
+	db_stop
+
+	# Stop any previously running old server or client before
+	# migrating directories
+	invoke-rc.d --quiet hobbit-client stop || true
+	invoke-rc.d --quiet hobbit stop || true
+	[ "$MIGRATE" ] && test -d /var/lib/hobbit -a ! -d /var/lib/xymon && mv -v /var/lib/hobbit /var/lib/xymon || true
+	test -d /var/lib/xymon || mkdir /var/lib/xymon
+	[ "$MIGRATE" ] && test -e /etc/default/hobbit-client -a ! -e /etc/default/xymon-client && mv -v /etc/default/hobbit-client /etc/default/xymon-client || true
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

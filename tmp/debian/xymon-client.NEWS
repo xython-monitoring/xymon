@@ -1,0 +1,30 @@
+xymon-client (4.3.7-1) experimental; urgency=low
+
+  This release moves Xymon's configuration from /etc/hobbit/ to
+  /etc/xymon/ and renames quite some files. Additionally most
+  configuration files have been renamed by upstream, too, to be more
+  consistent. See Upstream's migration documentation available at
+  /usr/share/doc/xymon-client/upgrade-to-430.txt.gz  and
+  /usr/share/doc/xymon/Renaming-430.txt.gz for details.
+
+  The package should care about most of the file renaming but can't
+  change the contents of files if they have been edited locally.
+
+  In the xymon-client package, usually only a few configuration files
+  are modified. (Enabling, disabling of local tests, etc.) So most
+  time it's the easiest way to take the something.cfg.dpkg-new files
+  and change them according to the old configuration files.
+
+  Lists of files to ignore or care about usually can be kept as they
+  are. You may want to look through the something.cfg.dpkg-new files
+  if there are new files listed you do not yet care about.
+
+  For changing paths and variable names in old configuration,
+  upstream's migration tools have been installed into
+  /usr/lib/xymon/server/libexec/ of a Xymon server package
+  installation. Nevertheless they are mostly untested in the context
+  of Debian package and are installed primarily for reference
+  purposes.
+
+ -- Axel Beckert <abe@debian.org>  Tue, 26 Jun 2012 01:02:40 +0200
+

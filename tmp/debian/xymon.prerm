@@ -1,0 +1,12 @@
+#! /bin/sh
+# prerm script for xymon
+
+set -e
+
+# Workaround for http://bugs.debian.org/560317 in case debconf is too old like on Squeeze
+export DPKG_MAINTSCRIPT_PACKAGE=${DPKG_MAINTSCRIPT_PACKAGE:-xymon}
+export DPKG_MAINTSCRIPT_NAME=${DPKG_MAINTSCRIPT_NAME:-prerm}
+
+#DEBHELPER#
+
+exit 0
