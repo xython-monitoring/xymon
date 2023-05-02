@@ -33,7 +33,12 @@ typedef struct {
 	unsigned char buffer[64];
 } SHA1_CTX;
 
-
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#define XYMON_LITTLE_ENDIAN
+#endif
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#define XYMON_BIG_ENDIAN
+#endif
 #if !defined(XYMON_BIG_ENDIAN) && !defined(XYMON_LITTLE_ENDIAN)
 #error "Endianness is UNDEFINED"
 #endif

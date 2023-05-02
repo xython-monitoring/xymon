@@ -8,10 +8,13 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+#include "config.h"
+
 #ifndef __VERSION_H__
 #define __VERSION_H__
 
+#ifndef VERSION
 #define VERSION "4.3.30"
-
 #endif
 
+#endif
