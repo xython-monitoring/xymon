@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char xymon_rcsid[] = "$Id: do_xymongen.c 7204 2013-07-23 12:20:59Z storner $";
+
 
 int do_xymongen_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp) 
 { 

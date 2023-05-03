@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char paging_rcsid[] = "$Id: do_paging.c 7026 2012-07-13 14:05:20Z storner $";
+
 
 static char *paging_params[] = { "DS:rate:GAUGE:600:0:U", NULL };
 static void *paging_tpl      = NULL;

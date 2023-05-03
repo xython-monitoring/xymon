@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: rssgen.c 7678 2015-10-01 14:42:42Z jccleaver $";
+
 
 #include <limits.h>
 #include <stdio.h>

@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymoncfg.c 7126 2012-07-26 14:52:03Z storner $";
+
 
 #include <limits.h>
 #include <stdio.h>

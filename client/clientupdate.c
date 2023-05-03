@@ -13,7 +13,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: clientupdate.c 7085 2012-07-16 11:08:37Z storner $";
+
 
 #include <sys/types.h>
 #include <sys/stat.h>

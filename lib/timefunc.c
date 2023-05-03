@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: timefunc.c 8084 2019-08-30 23:01:18Z jccleaver $";
+
 
 #include <time.h>
 #include <sys/time.h>

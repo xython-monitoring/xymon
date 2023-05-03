@@ -40,7 +40,7 @@
  *   active alerts for this host.test combination.
  */
 
-static char rcsid[] = "$Id: xymond_alert.c 7982 2016-11-05 19:02:06Z jccleaver $";
+
 
 #include <stdio.h>
 #include <string.h>

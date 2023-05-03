@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: chpasswd.c 6588 2010-11-14 17:21:19Z storner $";
+
 
 #include <stdio.h>
 #include <string.h>

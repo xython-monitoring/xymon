@@ -22,7 +22,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond_ipc.c 7891 2016-02-08 21:00:24Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <sys/ipc.h>

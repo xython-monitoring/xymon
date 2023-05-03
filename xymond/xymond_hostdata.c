@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond_hostdata.c 7669 2015-06-11 22:39:01Z jccleaver $";
+
 
 #include <sys/stat.h>
 #include <sys/types.h>

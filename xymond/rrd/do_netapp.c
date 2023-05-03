@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char netapp_rcsid[] = "$Id: do_netapp.c 7969 2016-10-21 23:26:36Z jccleaver $";
+
 
 int do_netapp_stats_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp)
 {

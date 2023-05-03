@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char snmpcollect_rcsid[] = "$Id: snmpcollect.c 7678 2015-10-01 14:42:42Z jccleaver $";
+
 
 /*
  * Split the snmpcollect client-message into individual mib-datasets.

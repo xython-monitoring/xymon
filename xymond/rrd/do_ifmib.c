@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char ifmib_rcsid[] = "$Id: do_ifmib.c 7026 2012-07-13 14:05:20Z storner $";
+
 
 static char *ifmib_params[] = { 
 	                        "DS:ifInNUcastPkts:COUNTER:600:0:U", 

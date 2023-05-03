@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: boilerplate.c 7435 2014-02-13 11:22:08Z storner $";
+
 
 #include <stdio.h>
 #include <string.h>

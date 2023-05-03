@@ -14,7 +14,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond_filestore.c 7678 2015-10-01 14:42:42Z jccleaver $";
+
 
 #include <stdio.h>
 #include <string.h>

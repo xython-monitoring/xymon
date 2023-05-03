@@ -55,7 +55,7 @@ Device                  Temp(C)  Temp(F)  Threshold(C)
 
 */
 
-static char temperature_rcsid[] = "$Id: do_temperature.c 8073 2019-08-07 21:16:04Z jccleaver $";
+
 
 int do_temperature_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp)
 {

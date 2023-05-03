@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: matching.c 7733 2015-11-12 09:24:01Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <unistd.h>

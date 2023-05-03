@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: loadlayout.c 7105 2012-07-23 11:47:20Z storner $";
+
 
 #include <limits.h>
 #include <stdio.h>

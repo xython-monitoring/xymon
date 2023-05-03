@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: timing.c 8069 2019-07-23 15:29:06Z jccleaver $";
+
 
 #include <unistd.h>	// For POSIX timer definitions
 #include <stdlib.h>

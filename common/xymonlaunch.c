@@ -13,7 +13,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymonlaunch.c 7482 2014-09-28 09:56:06Z storner $";
+
 
 #include <sys/types.h>
 #include <sys/stat.h>

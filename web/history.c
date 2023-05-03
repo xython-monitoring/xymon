@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: history.c 8072 2019-08-05 20:21:55Z jccleaver $";
+
 
 #include <limits.h>
 #include <stdio.h>

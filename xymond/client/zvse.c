@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char zvse_rcsid[] = "$Id: zvse.c 7608 2015-03-21 15:00:40Z jccleaver $";
+
 
 static void zvse_cpu_report(char *hostname, char *clientclass, enum ostype_t os,
                      void *hinfo, char *fromline, char *timestr,

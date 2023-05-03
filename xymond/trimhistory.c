@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: trimhistory.c 7678 2015-10-01 14:42:42Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <sys/stat.h>

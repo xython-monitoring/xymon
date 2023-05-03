@@ -13,7 +13,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: client_config.c 8068 2019-07-23 14:46:23Z jccleaver $";
+
 
 #include <stdio.h>
 #include <string.h>

@@ -12,7 +12,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond_rrd.c 7576 2015-02-18 03:50:11Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <stdio.h>

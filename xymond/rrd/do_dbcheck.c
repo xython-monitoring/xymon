@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char dbcheck_rcsid[] = "$Id: do_dbcheck.c 7060 2012-07-14 16:32:11Z storner $";
+
 
 int do_dbcheck_memreq_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp)
 {

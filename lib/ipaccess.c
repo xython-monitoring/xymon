@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: ipaccess.c 7476 2014-09-28 09:46:30Z storner $";
+
 
 #include <unistd.h>
 #include <string.h>

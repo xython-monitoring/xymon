@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond_buffer.c 7217 2013-07-25 16:04:40Z storner $";
+
 
 #include <unistd.h>
 #include <stdlib.h>

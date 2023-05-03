@@ -25,7 +25,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymond.c 8045 2019-04-09 03:32:37Z jccleaver $";
+
 
 #include <limits.h>
 #include <sys/time.h>

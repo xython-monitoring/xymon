@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char do_net_rcsid[] = "$Id: do_net.c 7676 2015-10-01 05:31:49Z jccleaver $";
+
 
 int do_net_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp)
 {

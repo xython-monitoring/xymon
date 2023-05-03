@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char aix_rcsid[] = "$Id: aix.c 8066 2019-05-03 22:42:00Z jccleaver $";
+
 
 void handle_aix_client(char *hostname, char *clienttype, enum ostype_t os,
 		       void *hinfo, char *sender, time_t timestamp,

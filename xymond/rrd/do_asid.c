@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char asid_rcsid[] = "$Id: do_asid.c 6585 2010-11-14 15:12:56Z storner $";
+
 
 static char *asid_params[]     = { "DS:util:GAUGE:600:0:100", NULL };
 static char *asid_tpl          = NULL;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char mqcollect_rcsid[] = "$Id: mqcollect.c 7060 2012-07-14 16:32:11Z storner $";
+
 
 void mqcollect_flush_status(int color, char *fromline, time_t timestamp, 
 			    char *hostname, char *qmid,

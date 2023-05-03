@@ -12,7 +12,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid_file[] = "$Id: loadhosts_file.c 8069 2019-07-23 15:29:06Z jccleaver $";
+
 
 static int get_page_name_title(char *buf, char *key, char **name, char **title)
 {

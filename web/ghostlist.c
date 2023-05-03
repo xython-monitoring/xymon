@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: ghostlist.c 7902 2016-02-18 19:47:55Z jccleaver $";
+
 
 #include <stdio.h>
 #include <string.h>

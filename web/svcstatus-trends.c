@@ -14,7 +14,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: svcstatus-trends.c 8069 2019-07-23 15:29:06Z jccleaver $";
+
 
 #include <limits.h>
 #include <stdio.h>

@@ -12,7 +12,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: logfetch.c 8046 2019-04-09 09:33:47Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <sys/stat.h>

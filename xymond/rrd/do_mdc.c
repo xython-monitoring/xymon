@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char mdc_rcsid[] = "$Id: do_mdc.c 6585 2010-11-14 15:12:56Z storner $";
+
 
 static char *mdc_params[]     = { "DS:reads:GAUGE:600:0:U", "DS:writes:GAUGE:600:0:U", NULL };
 static char *mdcpct_params[]  = { "DS:hitpct:GAUGE:600:0:100", NULL };

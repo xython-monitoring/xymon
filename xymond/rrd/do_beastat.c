@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char beastat_rcsid[] = "$Id: do_beastat.c 7999 2017-01-06 02:00:06Z jccleaver $";
+
 
 int do_beastat_jta_rrd(char *hostname, char *testname, char *classname, char *pagepaths, char *msg, time_t tstamp)
 {

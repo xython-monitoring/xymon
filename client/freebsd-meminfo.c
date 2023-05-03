@@ -9,7 +9,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: freebsd-meminfo.c 7505 2015-02-08 03:54:56Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <sys/sysctl.h>

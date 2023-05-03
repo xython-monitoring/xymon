@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: dns2.c 8069 2019-07-23 15:29:06Z jccleaver $";
+
 
 /*
  * All of the code for parsing DNS responses and formatting these into

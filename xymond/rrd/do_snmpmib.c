@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char snmpmib_rcsid[] = "$Id: do_snmpmib.c 7105 2012-07-23 11:47:20Z storner $";
+
 
 static time_t snmp_nextreload = 0;
 

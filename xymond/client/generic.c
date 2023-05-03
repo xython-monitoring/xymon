@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char generic_rcsid[] = "$Id: generic.c 7059 2012-07-14 15:18:14Z storner $";
+
 
 void handle_generic_client(char *hostname, char *clienttype, enum ostype_t os, 
 			 void *hinfo, char *sender, time_t timestamp,

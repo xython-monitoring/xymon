@@ -9,7 +9,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: netbsd-meminfo.c 6712 2011-07-31 21:01:52Z storner $";
+
 
 #include <sys/param.h>
 #include <sys/types.h>

@@ -12,7 +12,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: xymonpage.c 6712 2011-07-31 21:01:52Z storner $";
+
 
 #include <stdio.h>
 #include <string.h>

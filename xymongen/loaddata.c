@@ -10,7 +10,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: loaddata.c 7904 2016-02-19 19:29:58Z jccleaver $";
+
 
 #include <limits.h>
 #include <stdio.h>

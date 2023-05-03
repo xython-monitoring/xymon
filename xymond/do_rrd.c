@@ -8,7 +8,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: do_rrd.c 7608 2015-03-21 15:00:40Z jccleaver $";
+
 
 #include <sys/types.h>
 #include <sys/time.h>

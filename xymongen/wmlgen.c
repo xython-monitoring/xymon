@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: wmlgen.c 8031 2019-03-13 08:59:50Z jccleaver $";
+
 
 #include <limits.h>
 #include <stdlib.h>

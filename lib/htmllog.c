@@ -11,7 +11,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-static char rcsid[] = "$Id: htmllog.c 8084 2019-08-30 23:01:18Z jccleaver $";
+
 
 #include <ctype.h>
 #include <stdlib.h>
