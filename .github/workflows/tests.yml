@@ -189,13 +189,19 @@ jobs:
             [[ -x client/openbsd-meminfo ]] && ./client/openbsd-meminfo
             [[ -x client/netbsd-meminfo ]] && ./client/netbsd-meminfo
             [[ -x client/freebsd-meminfo ]] && ./client/freebsd-meminfo
-  build-bullseye-client:
-    runs-on: bullseye
-    name: build client on ubuntu
+  build-bullseye-original-client:
+    strategy:
+      fail-fast: False
+      matrix:
+        os:
+          - name: bullseye
+          - name: bookworm
+    runs-on: ${{ matrix.os.name }}
+    name: build client on ${{ matrix.os.name }}
     steps:
       - uses: actions/checkout@v3
       - name: Install packages
-        run: sudo apt-get -y install autotools-dev build-essential automake
+        run: sudo apt-get -y install build-essential
       - name: Create xymon user
         run: sudo useradd xymon
       - name: configure
@@ -206,13 +212,19 @@ jobs:
         run: sudo apt-get -y install libssl-dev librrd-dev libc-ares-dev
       - name: build with any optional deps
         run: make
-  build-bullseye-server:
-    runs-on: bullseye
-    name: build server on ubuntu
+  build-bullseye-original-server:
+    strategy:
+      fail-fast: False
+      matrix:
+        os:
+          - name: bullseye
+          - name: bookworm
+    runs-on: ${{ matrix.os.name }}
+    name: build server on ${{ matrix.os.name }}
     steps:
       - uses: actions/checkout@v3
       - name: Install packages
-        run: sudo apt-get -y install autotools-dev build-essential automake
+        run: sudo apt-get -y install build-essential
       - name: Create xymon user
         run: sudo useradd xymon
       - name: configure
