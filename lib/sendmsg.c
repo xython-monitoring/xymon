@@ -714,8 +714,6 @@ static void combo_params(void)
 
 void combo_start(void)
 {
-	int n;
-
 	combo_params();
 
 	memset(comboofsstr, ' ', comboofssz);

@@ -174,8 +174,7 @@ void redirect_cgilog(char *cginame)
 {
 	char logfn[PATH_MAX];
 	char *cgilogdir;
-	FILE *fd;
-	
+
 	cgilogdir = getenv("XYMONCGILOGDIR");
 	if (!cgilogdir) return;
 
